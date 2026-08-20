@@ -77,10 +77,17 @@ a {
 }
 
 .wordmark {
+  display: inline-block;
   font-family: var(--serif);
-  font-size: 1.45rem;
+  font-size: 1.55rem;
+  font-weight: 700;
+  font-synthesis: weight;
+  letter-spacing: 0.06em;
+  transform: scaleX(1.08);
+  transform-origin: left center;
+  color: #3a3a3a;
   text-decoration: none;
-  letter-spacing: 0.02em;
+  -webkit-text-stroke: 0.35px currentColor;
 }
 
 .nav {
