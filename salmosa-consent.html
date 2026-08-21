@@ -42,7 +42,7 @@ select.status { font-family:inherit; font-size:12px; font-weight:700; border-rad
 .note.request { color:#1a7f37; }
 .post { padding:10px 0; border-bottom:1px dashed #eee; }
 .post:last-child { border-bottom:0; }
-.title { width:100%; border:0; border-bottom:1px solid #c5d4e0; background:transparent; font-family:inherit; font-size:14px; font-weight:600; color:#16324f; padding:4px 0; outline:none; }
+.title { width:100%; border:0; border-bottom:1px solid #c5d4e0; background:transparent; font-family:inherit; font-size:14px; font-weight:600; color:#16324f; padding:4px 0; outline:none; display:block; resize:none; overflow:hidden; white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; line-height:1.45; min-height:1.45em; }
 .meta { display:flex; gap:8px; margin-top:6px; flex-wrap:wrap; align-items:center; }
 .meta input {
   border:1px solid #d8ddd9; border-radius:8px; font-family:inherit; font-size:12px;
@@ -182,7 +182,7 @@ function cardHtml(g){
   const req=isRequestNote(g.note)?" request":"";
   const posts=g.posts.map(p=>`
     <div class="post" data-id="${esc(p.id)}">
-      <input class="title" data-f="title" value="${esc(p.title)}" placeholder="글 제목">
+      <textarea class="title" data-f="title" rows="1" placeholder="글 제목">${esc(p.title)}</textarea>
       <div class="meta">
         <input class="date" readonly tabindex="-1" value="${esc(p.date)}" placeholder="작성일">
         <input class="views" readonly tabindex="-1" value="${p.views!==""&&p.views!=null?("조회 "+esc(p.views)):""}" placeholder="조회수">
@@ -229,6 +229,11 @@ function render(){
       <div class="section-sub">${st==="동의완료" ? ("현 상태로 출간하면 약 "+estimatePages()+"쪽 분량이 나옵니다") : META[st].sub}</div>${cards}</section>`;
   }).join("");
   bind();
+  document.querySelectorAll("textarea.title").forEach(fitTitle);
+}
+function fitTitle(el){
+  el.style.height = "auto";
+  el.style.height = el.scrollHeight + "px";
 }
 function applyMeta(item, meta){
   if(!meta||!meta.ok) return item;
@@ -263,7 +268,8 @@ function bind(){
     }
     card.querySelectorAll(".post").forEach(row=>{
       const id=row.dataset.id;
-      const titleInp=row.querySelector("input.title");
+      const titleInp=row.querySelector("textarea.title");
+      titleInp.addEventListener("input", ()=>fitTitle(titleInp));
       titleInp.addEventListener("change", async ()=>{
         const item=data.find(p=>String(p.id)===String(id));
         if(!item) return;
@@ -345,6 +351,7 @@ document.getElementById("resetBtn").onclick=()=>{
   data=load(); save(); render();
 };
 render(); save();
+window.addEventListener("resize", ()=>{ document.querySelectorAll("textarea.title").forEach(fitTitle); });
 </script>
 </body>
 </html>
