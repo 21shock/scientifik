@@ -75,7 +75,6 @@ select.status { font-family:inherit; font-size:12px; font-weight:700; border-rad
     <button class="btn-primary" id="addPerson">+ 사람 추가</button>
     <button class="btn-ghost" id="exportBtn">JSON 저장</button>
     <button class="btn-ghost" id="importBtn">JSON 불러오기</button>
-    <button class="btn-ghost" id="resetBtn">처음 목록으로</button>
     <input type="file" id="file" accept="application/json" hidden>
     <span class="saved" id="saved">저장됨</span>
   </div>
@@ -363,11 +362,6 @@ document.getElementById("file").onchange=e=>{
     }catch(err){ alert("JSON을 읽지 못했습니다."); }
   };
   reader.readAsText(f); e.target.value="";
-};
-document.getElementById("resetBtn").onclick=()=>{
-  if(!confirm("지금 수정한 내용을 지우고 처음 목록으로 되돌릴까요?")) return;
-  localStorage.removeItem(KEY); localStorage.removeItem("salmosa-consent-v1");
-  data=load(); save(); render();
 };
 document.getElementById("ask-yes").onclick=()=>{ if(askResolve) askResolve(true); };
 document.getElementById("ask-no").onclick=()=>{ if(askResolve) askResolve(false); };
