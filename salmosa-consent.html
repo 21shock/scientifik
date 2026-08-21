@@ -252,6 +252,11 @@ function bind(){
     });
     statusSel.addEventListener("change", ()=>{
       const neu=statusSel.value;
+      if(neu===status0) return;
+      if(!confirm("정말 수정하시겠습니까?")){
+        statusSel.value=status0;
+        return;
+      }
       data.forEach(p=>{ if(p.author===author0&&p.status===status0) p.status=neu; });
       save(); render();
     });
