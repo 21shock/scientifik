@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>살모사 책 수록 동의 현황</title>
+<meta name="robots" content="noindex,nofollow" />
+<style>
+:root {
+  --bg: #f3efe6; --ink: #122536; --muted: #6b7785; --line: #e6ebe8;
+  --ok: #1a7f37; --wait: #c45c00; --no: #9b1c1c; --card: #fff; --lock: #eef1ee;
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:"Apple SD Gothic Neo",Pretendard,"Malgun Gothic",sans-serif; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 24px 16px 64px; }
+.hero { background:var(--ink); color:#fff; border-radius:18px; padding:26px 24px 20px; margin-bottom:18px; }
+.hero .kicker { font-size:13px; color:#9ec9e6; }
+.hero h1 { font-size:26px; margin:8px 0 12px; }
+.pills { display:flex; flex-wrap:wrap; gap:6px; }
+.pill { border-radius:999px; padding:5px 11px; font-size:13px; font-weight:700; color:#fff; }
+.pill.ok { background:var(--ok); } .pill.wait { background:var(--wait); } .pill.no { background:var(--no); }
+.hero p { font-size:13px; color:#c9d7e3; margin:12px 0 0; line-height:1.55; }
+.toolbar { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 22px; }
+button, .btn { appearance:none; border:0; cursor:pointer; font-family:inherit; font-size:13px; font-weight:700; border-radius:10px; padding:9px 12px; }
+.btn-primary { background:var(--ink); color:#fff; }
+.btn-ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
+.btn-danger { background:#fdecec; color:var(--no); }
+.btn-tiny { padding:4px 8px; font-size:12px; border-radius:8px; }
+.saved { font-size:12px; color:var(--muted); align-self:center; margin-left:auto; }
+.section { margin:0 0 28px; }
+.section-title { font-size:20px; font-weight:800; border-left:8px solid; padding-left:10px; margin:0 0 6px; }
+.section.ok .section-title { border-color:var(--ok); }
+.section.wait .section-title { border-color:var(--wait); }
+.section.no .section-title { border-color:var(--no); }
+.section-sub { font-size:13px; color:var(--muted); margin:0 0 12px 18px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin:0 0 10px; }
+.card-head { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.nick { font-size:16px; font-weight:800; border:0; background:transparent; width:160px; min-width:120px; flex:1; outline:none; color:var(--ink); padding:2px 0; }
+.nick:focus { background:#f7faf8; border-radius:6px; padding-left:6px; }
+select.status { font-family:inherit; font-size:12px; font-weight:700; border-radius:999px; padding:4px 8px; border:1px solid var(--line); }
+.note { width:100%; margin-top:8px; border:1px solid #d8ddd9; border-radius:8px; font-family:inherit; font-size:13px; padding:7px 9px; color:#5c6770; background:var(--lock); cursor:default; }
+.note.request { color:#1a7f37; }
+.post { padding:10px 0; border-bottom:1px dashed #eee; }
+.post:last-child { border-bottom:0; }
+.title { width:100%; border:0; border-bottom:1px solid #c5d4e0; background:transparent; font-family:inherit; font-size:14px; font-weight:600; color:#16324f; padding:4px 0; outline:none; }
+.meta { display:flex; gap:8px; margin-top:6px; flex-wrap:wrap; align-items:center; }
+.meta input {
+  border:1px solid #d8ddd9; border-radius:8px; font-family:inherit; font-size:12px;
+  padding:5px 8px; color:#5c6770; background:var(--lock); cursor:default;
+}
+.meta input.date { width:118px; }
+.meta input.views, .meta input.likes { width:92px; }
+.meta input.link { flex:1; min-width:140px; }
+.empty { color:var(--muted); font-size:13px; padding:8px 0; }
+.modal-bg { position:fixed; inset:0; background:rgba(18,37,54,.45); display:none; align-items:center; justify-content:center; padding:16px; z-index:20; }
+.modal-bg.show { display:flex; }
+.modal { background:#fff; border-radius:16px; padding:20px; width:min(440px,100%); }
+.modal h2 { margin:0 0 12px; font-size:18px; }
+.modal label { display:block; font-size:12px; color:var(--muted); margin:8px 0 4px; }
+.modal input, .modal select { width:100%; font-family:inherit; font-size:14px; border:1px solid var(--line); border-radius:10px; padding:8px 10px; }
+.modal .row { display:flex; gap:8px; margin-top:14px; justify-content:flex-end; }
+.count { font-size:13px; color:var(--muted); font-weight:600; margin-left:8px; }
+.finding { color:#c45c00; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">살모사의 커피하우스 · 책 수록</div>
+    <h1>글 동의 현황</h1>
+    <div class="pills" id="pills"></div>
+    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. 그 칸은 직접 고치지 않습니다.</p>
+  </div>
+  <div class="toolbar">
+    <button class="btn-primary" id="addPerson">+ 사람 추가</button>
+    <button class="btn-ghost" id="exportBtn">JSON 저장</button>
+    <button class="btn-ghost" id="importBtn">JSON 불러오기</button>
+    <button class="btn-ghost" id="resetBtn">처음 목록으로</button>
+    <input type="file" id="file" accept="application/json" hidden>
+    <span class="saved" id="saved">저장됨</span>
+  </div>
+  <div id="app"></div>
+</div>
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h2>사람 추가</h2>
+    <label>닉네임</label>
+    <input id="m-author" placeholder="예: 잠실탱크">
+    <label>동의 상태</label>
+    <select id="m-status">
+      <option>동의완료</option>
+      <option selected>답변 대기중</option>
+      <option>동의불가</option>
+    </select>
+    <label>글 제목</label>
+    <input id="m-title" placeholder="따옴표 없이 제목만">
+    <label>메모 (선택)</label>
+    <input id="m-note" placeholder="예: 익명처리부탁">
+    <div class="row">
+      <button class="btn-ghost" id="m-cancel">취소</button>
+      <button class="btn-primary" id="m-ok">추가</button>
+    </div>
+    <div class="finding" id="m-msg" style="margin-top:10px;"></div>
+  </div>
+</div>
+<script>
+const SEED = [{"id": "47054", "status": "동의완료", "author": "잠실탱크", "note": "", "title": "사업의 온라인화와 공실의 상관관계에 대하여", "date": "2025-11-05", "likes": 47, "views": 820, "link": "https://cafe.naver.com/arcadestudy/47054", "hangul": 1210}, {"id": "32438", "status": "동의완료", "author": "솔로헌터", "note": "", "title": "빌딩 관리 혹은 관리비에 대해 작게니마 아는바를 정리해보았습니다", "date": "2022-01-09", "likes": 131, "views": 3154, "link": "https://cafe.naver.com/arcadestudy/32438", "hangul": 1799}, {"id": "38352", "status": "동의완료", "author": "살모사당", "note": "", "title": "살모사로 살아가다 억울할때 꿀팁", "date": "2023-01-07", "likes": 137, "views": 2268, "link": "https://cafe.naver.com/arcadestudy/38352", "hangul": 796}, {"id": "37261", "status": "동의완료", "author": "살모사당", "note": "", "title": "시공사 계약 시 주의사항 한가지 적어드립니다", "date": "2022-10-05", "likes": 19, "views": 922, "link": "https://cafe.naver.com/arcadestudy/37261", "hangul": 744}, {"id": "45446", "status": "동의완료", "author": "진자운동", "note": "", "title": "일반인의 지방 상가주택 건축기 올려봅니다.(건축비용, 기간 공유)", "date": "2025-02-17", "likes": 79, "views": 2978, "link": "https://cafe.naver.com/arcadestudy/45446", "hangul": 4420}, {"id": "26976", "status": "동의완료", "author": "이상형", "note": "", "title": "제주도 세컨하우스 만들기 3단계", "date": "2021-04-30", "likes": 79, "views": 1977, "link": "https://cafe.naver.com/arcadestudy/26976", "hangul": 795}, {"id": "27102", "status": "동의완료", "author": "이상형", "note": "", "title": "제주도 세컨하우스 만들기 3단계(2)", "date": "2021-05-06", "likes": 80, "views": 2244, "link": "https://cafe.naver.com/arcadestudy/27102", "hangul": 2087}, {"id": "11329", "status": "동의완료", "author": "화란설청", "note": "", "title": "은행 대출금리 대략 이렇게 결정됩니다", "date": "2019-04-18", "likes": 86, "views": 3473, "link": "https://cafe.naver.com/arcadestudy/11329", "hangul": 895}, {"id": "1310", "status": "동의완료", "author": "화란설청", "note": "", "title": "상가대출에 대한 고찰", "date": "2017-12-06", "likes": 35, "views": 1918, "link": "https://cafe.naver.com/arcadestudy/1310", "hangul": 1386}, {"id": "23513", "status": "동의완료", "author": "상가월세받고싶음", "note": "", "title": "철거에 관해....", "date": "2020-12-01", "likes": 55, "views": 1461, "link": "https://cafe.naver.com/arcadestudy/23513", "hangul": 997}, {"id": "23932", "status": "동의완료", "author": "상가월세받고싶음", "note": "", "title": "철거 후기", "date": "2020-12-21", "likes": "", "views": 694, "link": "https://cafe.naver.com/arcadestudy/23932", "hangul": 518}, {"id": "12893", "status": "동의완료", "author": "맥밀란", "note": "", "title": "원룸(다중, 다가구) 건물 효과적 관리 방법", "date": "2019-07-01", "likes": 125, "views": 3919, "link": "https://cafe.naver.com/arcadestudy/12893", "hangul": 2454}, {"id": "45917", "status": "동의완료", "author": "은행대출담당", "note": "익명처리부탁", "title": "대출담장자가본 법인임대사업자 대출에관해", "date": "2025-04-19", "likes": 68, "views": 1749, "link": "https://cafe.naver.com/arcadestudy/45917", "hangul": 2667}, {"id": "42635", "status": "동의완료", "author": "우보천리로간다", "note": "", "title": "자영업자들이 건물주가 되어야 하는 이유", "date": "2024-01-21", "likes": 47, "views": 3608, "link": "https://cafe.naver.com/arcadestudy/42635", "hangul": 1282}, {"id": "19196", "status": "동의완료", "author": "상가 몇개더", "note": "", "title": "꼬마빌딩 공실 막는 방법 ...!!(feat with 밀린 임차료 한번에 받는 방법)", "date": "2020-05-12", "likes": 147, "views": 3319, "link": "https://cafe.naver.com/arcadestudy/19196", "hangul": 1074}, {"id": "41391", "status": "동의완료", "author": "CN1000", "note": "", "title": "임대인의 임대료 연체 관리 팁", "date": "2023-09-09", "likes": 156, "views": 2706, "link": "https://cafe.naver.com/arcadestudy/41391", "hangul": 1803}, {"id": "38266", "status": "동의완료", "author": "getheart01", "note": "세법검증 요청함", "title": "상속세/증여세의 연대납부/분납과 납세담보 Ver1.01", "date": "2022-12-30", "likes": 40, "views": 1133, "link": "https://cafe.naver.com/arcadestudy/38266", "hangul": 1492}, {"id": "46005", "status": "동의완료", "author": "어지러운도적", "note": "", "title": "셀프 85평 옥상 우레탄방수 체험기", "date": "2025-05-03", "likes": 54, "views": 3900, "link": "https://cafe.naver.com/arcadestudy/46005", "hangul": 1178}, {"id": "46801", "status": "동의완료", "author": "startup", "note": "", "title": "대규모 재건축 단지가 아닌 곳들은 상가 신축을 안하는 방향으로 가는듯 보입니다", "date": "2025-09-16", "likes": 87, "views": 4506, "link": "https://cafe.naver.com/arcadestudy/46801", "hangul": 1649}, {"id": "9513", "status": "동의완료", "author": "상가교생", "note": "", "title": "현직 종사자가 말하는 상가", "date": "2019-01-12", "likes": 149, "views": 4469, "link": "https://cafe.naver.com/arcadestudy/9513", "hangul": 1307}, {"id": "40773", "status": "동의완료", "author": "상가교생", "note": "", "title": "좋은 물건을 사기 위한 손품/발품 방법론", "date": "2023-07-26", "likes": 126, "views": 1836, "link": "https://cafe.naver.com/arcadestudy/40773", "hangul": 2639}, {"id": "34007", "status": "동의완료", "author": "어유지리", "note": "", "title": "60이라는 나이를 앞두고", "date": "2022-03-27", "likes": 112, "views": 3701, "link": "https://cafe.naver.com/arcadestudy/34007", "hangul": 2079}, {"id": "41118", "status": "동의완료", "author": "커피커피15", "note": "", "title": "시설업에 대한 고찰", "date": "2023-08-20", "likes": 45, "views": 1057, "link": "https://cafe.naver.com/arcadestudy/41118", "hangul": 1077}, {"id": "2203", "status": "답변 대기중", "author": "체육인", "note": "", "title": "병원 상가주를 생각하는 분들이라면", "date": "2018-02-03", "likes": 242, "views": 7267, "link": "https://cafe.naver.com/arcadestudy/2203", "hangul": 1563}, {"id": "2387", "status": "답변 대기중", "author": "체육인", "note": "", "title": "아파트단지내상가 편의점자리 투자를 생각한다면", "date": "2018-02-12", "likes": 109, "views": 4410, "link": "https://cafe.naver.com/arcadestudy/2387", "hangul": 2133}, {"id": "5830", "status": "답변 대기중", "author": "체육인", "note": "", "title": "약국상가 투자 전에 생각해볼 것들", "date": "2018-08-08", "likes": 69, "views": 3181, "link": "https://cafe.naver.com/arcadestudy/5830", "hangul": 1247}, {"id": "12459", "status": "답변 대기중", "author": "루팡3세", "note": "", "title": "재건축 상가 투자를 마무리하는 시점에서", "date": "2019-06-10", "likes": 42, "views": 3759, "link": "https://cafe.naver.com/arcadestudy/12459", "hangul": 3210}, {"id": "39718", "status": "답변 대기중", "author": "논어", "note": "", "title": "젊은 건물주가 느낀 원룸운영 일년의 단상", "date": "2023-04-25", "likes": 202, "views": 4272, "link": "https://cafe.naver.com/arcadestudy/39718", "hangul": 2320}, {"id": "28524", "status": "답변 대기중", "author": "유두리", "note": "", "title": "건물 매수하면서 몇 가지 후회되는 것들(계약부터 잔금까지)", "date": "2021-07-08", "likes": 161, "views": 3429, "link": "https://cafe.naver.com/arcadestudy/28524", "hangul": 1142}, {"id": "21241", "status": "답변 대기중", "author": "푸른물고기", "note": "", "title": "제가 아는 누수 경우 올려봅니다.-추가 수정-", "date": "2020-08-15", "likes": 63, "views": 1714, "link": "https://cafe.naver.com/arcadestudy/21241", "hangul": 1793}, {"id": "24908", "status": "답변 대기중", "author": "이누", "note": "닉네임 카페=열혈캠퍼님 가능성", "title": "창고업 경험담", "date": "2021-01-29", "likes": 90, "views": 2583, "link": "https://cafe.naver.com/arcadestudy/24908", "hangul": 1651}, {"id": "24915", "status": "답변 대기중", "author": "이누", "note": "닉네임 카페=열혈캠퍼님 가능성", "title": "창고업 2탄.", "date": "2021-01-29", "likes": 81, "views": 2034, "link": "https://cafe.naver.com/arcadestudy/24915", "hangul": 3373}, {"id": "47428", "status": "답변 대기중", "author": "스벅건물", "note": "", "title": "스타벅스 건물 매도 마치고 후기 남깁니다", "date": "2026-02-03", "likes": 162, "views": 6334, "link": "https://cafe.naver.com/arcadestudy/47428", "hangul": 924}, {"id": "43275", "status": "답변 대기중", "author": "이수민서맘", "note": "", "title": "2년이상 공실 더이상 견디다 못해 ,,,,1", "date": "2024-04-10", "likes": 10, "views": 2743, "link": "https://cafe.naver.com/arcadestudy/43275", "hangul": 567}, {"id": "43277", "status": "답변 대기중", "author": "이수민서맘", "note": "", "title": "2년이상 공실 더이상 견디다 못해 ,,,,2", "date": "2024-04-11", "likes": 32, "views": 2149, "link": "https://cafe.naver.com/arcadestudy/43277", "hangul": 946}, {"id": "43279", "status": "답변 대기중", "author": "이수민서맘", "note": "", "title": "2년이상 공실 더이상 견디다 못해 ,,,,3", "date": "2024-04-11", "likes": 39, "views": 3928, "link": "https://cafe.naver.com/arcadestudy/43279", "hangul": 744}, {"id": "34662", "status": "답변 대기중", "author": "루크", "note": "", "title": "꼬빌로 가는 사고법", "date": "2022-04-28", "likes": 91, "views": 3291, "link": "https://cafe.naver.com/arcadestudy/34662", "hangul": 1513}, {"id": "17990", "status": "답변 대기중", "author": "비가비", "note": "", "title": "임대업과 나의 인생 돌아보기", "date": "2020-03-02", "likes": 67, "views": 2430, "link": "https://cafe.naver.com/arcadestudy/17990", "hangul": 2149}, {"id": "35912", "status": "답변 대기중", "author": "구뜨(곰돌이푸우72)", "note": "카페 닉 곰돌이푸우72", "title": "상가주택에 대한 견해", "date": "2022-07-05", "likes": 81, "views": 2459, "link": "https://cafe.naver.com/arcadestudy/35912", "hangul": 2727}, {"id": "28180", "status": "답변 대기중", "author": "고고고", "note": "", "title": "꼬빌구매후기 feat.10개월간의 방황", "date": "2021-06-24", "likes": 104, "views": 2575, "link": "https://cafe.naver.com/arcadestudy/28180", "hangul": 1834}, {"id": "17278", "status": "답변 대기중", "author": "도르담", "note": "", "title": "상가샀더니 이것저것 장난아니네요", "date": "2020-01-24", "likes": 73, "views": 3275, "link": "https://cafe.naver.com/arcadestudy/17278", "hangul": 1766}, {"id": "11766", "status": "답변 대기중", "author": "파키케팔로사우르스", "note": "", "title": "건물 바가지 안쓰고 사는 법", "date": "2019-05-09", "likes": 187, "views": 6491, "link": "https://cafe.naver.com/arcadestudy/11766", "hangul": 718}, {"id": "6828", "status": "답변 대기중", "author": "금광천사", "note": "", "title": "상권 이야기 - 편의점", "date": "2018-09-17", "likes": 92, "views": 5160, "link": "https://cafe.naver.com/arcadestudy/6828", "hangul": 678}, {"id": "45212", "status": "답변 대기중", "author": "머시", "note": "", "title": "약국 상가 투자 솔직히 알려드립니다", "date": "2025-01-11", "likes": 30, "views": 3498, "link": "https://cafe.naver.com/arcadestudy/45212", "hangul": 386}, {"id": "45540", "status": "답변 대기중", "author": "머시", "note": "", "title": "약국 상가 투자 솔직히 알려드립니다. 2탄", "date": "2025-03-02", "likes": 20, "views": 2795, "link": "https://cafe.naver.com/arcadestudy/45540", "hangul": 861}, {"id": "45900", "status": "답변 대기중", "author": "julian", "note": "", "title": "건물공사의 어려움", "date": "2025-04-17", "likes": 12, "views": 791, "link": "https://cafe.naver.com/arcadestudy/45900", "hangul": 1172}, {"id": "40783", "status": "답변 대기중", "author": "중도90", "note": "", "title": "상속을 진행하면서 느낀점", "date": "2023-07-27", "likes": 58, "views": 2448, "link": "https://cafe.naver.com/arcadestudy/40783", "hangul": 519}, {"id": "40785", "status": "답변 대기중", "author": "중도90", "note": "", "title": "상속을 진행하면서 느낀점 2", "date": "2023-07-27", "likes": 21, "views": 2529, "link": "https://cafe.naver.com/arcadestudy/40785", "hangul": 561}, {"id": "40805", "status": "답변 대기중", "author": "중도90", "note": "", "title": "상속을 진행하면서 3", "date": "2023-07-28", "likes": 94, "views": 2622, "link": "https://cafe.naver.com/arcadestudy/40805", "hangul": 1419}, {"id": "40835", "status": "답변 대기중", "author": "중도90", "note": "", "title": "상속을 진행하며 4", "date": "2023-08-01", "likes": 28, "views": 1803, "link": "https://cafe.naver.com/arcadestudy/40835", "hangul": 756}, {"id": "47751", "status": "답변 대기중", "author": "건물주가처음이라", "note": "", "title": "AI 이용하여 법률 상담 및 절차 진행시 약간 팁", "date": "2026-04-26", "likes": 50, "views": 819, "link": "https://cafe.naver.com/arcadestudy/47751", "hangul": 716}, {"id": "35175", "status": "동의불가", "author": "이제부터 시작", "note": "", "title": "초보분들을 위한 은행별 대출특징", "date": "2022-05-27", "likes": 142, "views": 2399, "link": "https://cafe.naver.com/arcadestudy/35175"}, {"id": "34082", "status": "동의불가", "author": "삼성동꼬꼬마", "note": "", "title": "3월의 마지막 주, 공실 탈출 기념으로 적어보네요", "date": "2022-03-31", "likes": 48, "views": 1729, "link": "https://cafe.naver.com/arcadestudy/34082"}, {"id": "2245", "status": "동의불가", "author": "CINNAMON", "note": "카페 원문 닉 'ㄱㄹ ㅅ ㅎㅎ' 가능성", "title": "통건물 투자자_주거용으로 버는 것과 거리가 먼", "date": "2018-02-04", "likes": 125, "views": 5177, "link": "https://cafe.naver.com/arcadestudy/2245"}, {"id": "41122", "status": "동의불가", "author": "처녀자리", "note": "", "title": "입지를 넘어서는....", "date": "2023-08-20", "likes": 84, "views": 2920, "link": "https://cafe.naver.com/arcadestudy/41122"}, {"id": "44757", "status": "동의불가", "author": "마음만은부자", "note": "", "title": "건물주 할아버지의 마지막 유언", "date": "2024-11-03", "likes": 106, "views": 2737, "link": "https://cafe.naver.com/arcadestudy/44757"}];
+const KEY = "salmosa-consent-v2";
+const LOOKUP = "http://127.0.0.1:8767/api/lookup";
+const STATUSES = ["동의완료", "답변 대기중", "동의불가"];
+const META = {
+  "동의완료": { cls: "ok", sub: "책에 수록할 수 있습니다." },
+  "답변 대기중": { cls: "wait", sub: "아직 답신을 기다리는 분들입니다." },
+  "동의불가": { cls: "no", sub: "책에 넣지 않습니다." }
+};
+function uid(){ return "p"+Math.random().toString(36).slice(2,10)+Date.now().toString(36); }
+function load(){
+  const seed = JSON.parse(JSON.stringify(SEED)).map(x => { if(!x.id) x.id=uid(); if(x.views==null) x.views=""; return x; });
+  try {
+    const raw = localStorage.getItem(KEY) || localStorage.getItem("salmosa-consent-v1");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) {
+        parsed.forEach(p => {
+          const s = seed.find(x => x.author===p.author && x.title===p.title);
+          if (s) {
+            if (s.link && !p.link) p.link=s.link;
+            if (s.id && !p.id) p.id=s.id;
+            if (s.date && !p.date) p.date=s.date;
+            if ((p.likes===""||p.likes==null) && s.likes!=="" && s.likes!=null) p.likes=s.likes;
+            if ((p.views===""||p.views==null) && s.views!=="" && s.views!=null) p.views=s.views;
+            if (!p.hangul && s.hangul) p.hangul=s.hangul;
+          }
+          if (p.views==null) p.views="";
+        });
+        return parsed;
+      }
+    }
+  } catch(e){}
+  return seed;
+}
+let data = load();
+function save(){
+  localStorage.setItem(KEY, JSON.stringify(data));
+  document.getElementById("saved").textContent = "저장됨 " + new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+}
+function setSaved(msg){ document.getElementById("saved").textContent = msg; }
+async function cafeLookup(author, title){
+  try {
+    const u = LOOKUP + "?author=" + encodeURIComponent(author||"") + "&title=" + encodeURIComponent(title||"");
+    const r = await fetch(u);
+    const j = await r.json();
+    if (j && j.ok) return j;
+    return { ok:false, error: (j && j.error) || "못 찾음" };
+  } catch(e) {
+    return { ok:false, error: "자동 찾기 서버가 꺼져 있습니다. 바탕화면의 ‘살모사_책_동의현황_서버.py’를 실행해 주세요." };
+  }
+}
+function grouped(){
+  const order=[], map={};
+  data.forEach(p => {
+    const k=p.status+"\t"+p.author;
+    if(!map[k]){ map[k]={status:p.status,author:p.author,note:p.note||"",posts:[]}; order.push(k); }
+    if(p.note && !map[k].note) map[k].note=p.note;
+    map[k].posts.push(p);
+  });
+  return order.map(k=>map[k]);
+}
+function counts(){
+  const people={"동의완료":new Set(),"답변 대기중":new Set(),"동의불가":new Set()};
+  const posts={"동의완료":0,"답변 대기중":0,"동의불가":0};
+  data.forEach(p=>{ if(people[p.status]) people[p.status].add(p.author); if(posts[p.status]!==undefined) posts[p.status]++; });
+  return {people, posts};
+}
+function esc(s){ return String(s??"").replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
+function isRequestNote(note){
+  const n=String(note||"");
+  if(/닉네임 카페|카페 닉|카페 원문/.test(n)) return false;
+  return /부탁|요청/.test(n);
+}
+function cardHtml(g){
+  const req=isRequestNote(g.note)?" request":"";
+  const posts=g.posts.map(p=>`
+    <div class="post" data-id="${esc(p.id)}">
+      <input class="title" data-f="title" value="${esc(p.title)}" placeholder="글 제목">
+      <div class="meta">
+        <input class="date" readonly tabindex="-1" value="${esc(p.date)}" placeholder="작성일">
+        <input class="views" readonly tabindex="-1" value="${p.views!==""&&p.views!=null?("조회 "+esc(p.views)):""}" placeholder="조회수">
+        <input class="likes" readonly tabindex="-1" value="${p.likes!==""&&p.likes!=null?("좋아요 "+esc(p.likes)):""}" placeholder="좋아요">
+        <input class="link" readonly tabindex="-1" value="${esc(p.link)}" placeholder="링크">
+        ${p.link?`<a class="btn-tiny btn-ghost" href="${esc(p.link)}" target="_blank" rel="noopener">열기</a>`:""}
+        <button class="btn-tiny btn-danger del-post">글 삭제</button>
+      </div>
+    </div>`).join("");
+  return `<div class="card" data-author="${esc(g.author)}" data-status="${esc(g.status)}">
+    <div class="card-head">
+      <input class="nick" data-f="author" value="${esc(g.author)}" placeholder="닉네임">
+      <select class="status">${STATUSES.map(s=>`<option ${s===g.status?"selected":""}>${s}</option>`).join("")}</select>
+      <span class="pill ${META[g.status].cls}" style="padding:3px 8px;font-size:11px;">${g.posts.length}편</span>
+      <button class="btn-tiny btn-ghost add-post">+ 글</button>
+      <button class="btn-tiny btn-danger del-person">사람 삭제</button>
+    </div>
+    ${g.note ? `<input class="note${req}" data-f="note" readonly tabindex="-1" value="${esc(g.note)}">` : ""}
+    ${posts}
+  </div>`;
+}
+function estimatePages(){
+  const items=data.filter(p=>p.status==="동의완료");
+  if(!items.length) return 0;
+  const AVG=1580;
+  let chars=0;
+  items.forEach(p=>{ const h=Number(p.hangul); chars += h>0 ? h : AVG; });
+  return Math.round(12 + chars/550 + items.length*0.7);
+}
+function render(){
+  const c=counts();
+  document.getElementById("pills").innerHTML =
+    `<span class="pill ok">동의완료 ${c.people["동의완료"].size}명 ${c.posts["동의완료"]}편</span>`+
+    `<span class="pill wait">답변 대기 ${c.people["답변 대기중"].size}명 ${c.posts["답변 대기중"]}편</span>`+
+    `<span class="pill no">동의불가 ${c.people["동의불가"].size}명 ${c.posts["동의불가"]}편</span>`;
+  const groups=grouped();
+  const by={"동의완료":[],"답변 대기중":[],"동의불가":[]};
+  groups.forEach(g=>by[g.status]&&by[g.status].push(g));
+  document.getElementById("app").innerHTML = STATUSES.map(st=>{
+    const list=by[st];
+    const cards=list.length?list.map(cardHtml).join(""):`<div class="empty">아직 없습니다. 위에서 사람을 추가하세요.</div>`;
+    return `<section class="section ${META[st].cls}">
+      <div class="section-title">${st}<span class="count">${list.length}명 · ${list.reduce((n,g)=>n+g.posts.length,0)}편</span></div>
+      <div class="section-sub">${st==="동의완료" ? ("현 상태로 출간하면 약 "+estimatePages()+"쪽 분량이 나옵니다") : META[st].sub}</div>${cards}</section>`;
+  }).join("");
+  bind();
+}
+function applyMeta(item, meta){
+  if(!meta||!meta.ok) return item;
+  item.id = meta.id || item.id;
+  if(meta.title) item.title = item.title || meta.title;
+  item.date = meta.date || item.date || "";
+  item.views = meta.views!==undefined&&meta.views!==null ? meta.views : (item.views||"");
+  item.likes = meta.likes!==undefined&&meta.likes!==null&&meta.likes!=="" ? meta.likes : (item.likes||"");
+  item.link = meta.link || item.link || "";
+  if(meta.hangul) item.hangul = meta.hangul;
+  return item;
+}
+function bind(){
+  document.querySelectorAll(".card").forEach(card=>{
+    const author0=card.dataset.author, status0=card.dataset.status;
+    const nick=card.querySelector(".nick"), statusSel=card.querySelector(".status"), note=card.querySelector(".note");
+    nick.addEventListener("change", ()=>{
+      const neu=nick.value.trim()||author0;
+      data.forEach(p=>{ if(p.author===author0&&p.status===status0) p.author=neu; });
+      save(); render();
+    });
+    statusSel.addEventListener("change", ()=>{
+      const neu=statusSel.value;
+      data.forEach(p=>{ if(p.author===author0&&p.status===status0) p.status=neu; });
+      save(); render();
+    });
+    if(note){
+      note.addEventListener("change", ()=>{
+        data.forEach(p=>{ if(p.author===author0&&p.status===status0) p.note=note.value; });
+        save(); render();
+      });
+    }
+    card.querySelectorAll(".post").forEach(row=>{
+      const id=row.dataset.id;
+      const titleInp=row.querySelector("input.title");
+      titleInp.addEventListener("change", async ()=>{
+        const item=data.find(p=>String(p.id)===String(id));
+        if(!item) return;
+        item.title=titleInp.value;
+        save();
+        setSaved("카페에서 찾는 중…");
+        const meta=await cafeLookup(item.author, item.title);
+        if(meta.ok){ applyMeta(item, meta); save(); render(); setSaved("카페 정보를 채웠습니다"); }
+        else { setSaved(meta.error||"저장됨"); }
+      });
+      row.querySelector(".del-post").addEventListener("click", ()=>{
+        if(!confirm("이 글을 목록에서 뺄까요?")) return;
+        data=data.filter(p=>String(p.id)!==String(id));
+        save(); render();
+      });
+    });
+    card.querySelector(".add-post").addEventListener("click", async ()=>{
+      const title=prompt("추가할 글 제목");
+      if(title===null) return;
+      const t=title.trim();
+      if(!t) return;
+      setSaved("카페에서 찾는 중…");
+      const meta=await cafeLookup(author0, t);
+      const item={id:uid(), status:status0, author:author0, note:note?note.value:(data.find(p=>p.author===author0&&p.status===status0)||{}).note||"", title:t, date:"", likes:"", views:"", link:""};
+      if(meta.ok) applyMeta(item, meta);
+      else setSaved(meta.error||"글을 추가했지만 카페 링크는 못 찾았습니다");
+      data.push(item); save(); render();
+      if(meta.ok) setSaved("카페 정보를 채웠습니다");
+    });
+    card.querySelector(".del-person").addEventListener("click", ()=>{
+      if(!confirm(author0+" 님과 글을 모두 목록에서 뺄까요?")) return;
+      data=data.filter(p=>!(p.author===author0&&p.status===status0));
+      save(); render();
+    });
+  });
+}
+document.getElementById("addPerson").onclick=()=>{ document.getElementById("modal").classList.add("show"); document.getElementById("m-msg").textContent=""; document.getElementById("m-author").focus(); };
+document.getElementById("m-cancel").onclick=()=>document.getElementById("modal").classList.remove("show");
+document.getElementById("modal").addEventListener("click", e=>{ if(e.target.id==="modal") e.target.classList.remove("show"); });
+document.getElementById("m-ok").onclick=async ()=>{
+  const author=document.getElementById("m-author").value.trim();
+  const title=document.getElementById("m-title").value.trim();
+  const msg=document.getElementById("m-msg");
+  if(!author||!title){ alert("닉네임과 글 제목을 적어 주세요."); return; }
+  msg.textContent="카페에서 찾는 중…";
+  document.getElementById("m-ok").disabled=true;
+  const meta=await cafeLookup(author, title);
+  const item={id:uid(), status:document.getElementById("m-status").value, author, note:document.getElementById("m-note").value.trim(), title, date:"", likes:"", views:"", link:""};
+  if(meta.ok) applyMeta(item, meta);
+  data.push(item); save(); render();
+  document.getElementById("m-ok").disabled=false;
+  document.getElementById("m-author").value="";
+  document.getElementById("m-title").value="";
+  document.getElementById("m-note").value="";
+  document.getElementById("modal").classList.remove("show");
+  setSaved(meta.ok ? "카페 정보를 채웠습니다" : (meta.error||"추가했습니다"));
+};
+document.getElementById("exportBtn").onclick=()=>{
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="살모사_책_동의현황.json"; a.click(); URL.revokeObjectURL(a.href);
+};
+document.getElementById("importBtn").onclick=()=>document.getElementById("file").click();
+document.getElementById("file").onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const parsed=JSON.parse(reader.result);
+      if(!Array.isArray(parsed)) throw new Error("배열이 아닙니다");
+      data=parsed.map(p=>({id:p.id||uid(), status:STATUSES.includes(p.status)?p.status:"답변 대기중", author:p.author||"", note:p.note||"", title:p.title||"", date:p.date||"", likes:p.likes??"", views:p.views??"", hangul:p.hangul||"", link:p.link||""}));
+      save(); render();
+    }catch(err){ alert("JSON을 읽지 못했습니다."); }
+  };
+  reader.readAsText(f); e.target.value="";
+};
+document.getElementById("resetBtn").onclick=()=>{
+  if(!confirm("지금 수정한 내용을 지우고 처음 목록으로 되돌릴까요?")) return;
+  localStorage.removeItem(KEY); localStorage.removeItem("salmosa-consent-v1");
+  data=load(); save(); render();
+};
+render(); save();
+</script>
+</body>
+</html>

@@ -316,12 +316,25 @@ h2 {
 
 .site-footer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
   padding: 1.4rem var(--pad);
   border-top: 1px solid var(--line);
   color: var(--mute);
   font-size: 0.92rem;
+}
+
+.site-footer .temp-note {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.site-footer .temp-note a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @media (max-width: 860px) {
