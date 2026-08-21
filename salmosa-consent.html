@@ -103,6 +103,15 @@ select.status { font-family:inherit; font-size:12px; font-weight:700; border-rad
     <div class="finding" id="m-msg" style="margin-top:10px;"></div>
   </div>
 </div>
+<div class="modal-bg" id="ask">
+  <div class="modal">
+    <h2 id="ask-msg">정말 수정하시겠습니까?</h2>
+    <div class="row">
+      <button class="btn-ghost" type="button" id="ask-no">취소</button>
+      <button class="btn-primary" type="button" id="ask-yes">확인</button>
+    </div>
+  </div>
+</div>
 <script>
 const SEED = [{"id": "47054", "status": "동의완료", "author": "잠실탱크", "note": "", "title": "사업의 온라인화와 공실의 상관관계에 대하여", "date": "2025-11-05", "likes": 47, "views": 820, "link": "https://cafe.naver.com/arcadestudy/47054", "hangul": 1210}, {"id": "32438", "status": "동의완료", "author": "솔로헌터", "note": "", "title": "빌딩 관리 혹은 관리비에 대해 작게니마 아는바를 정리해보았습니다", "date": "2022-01-09", "likes": 131, "views": 3154, "link": "https://cafe.naver.com/arcadestudy/32438", "hangul": 1799}, {"id": "38352", "status": "동의완료", "author": "살모사당", "note": "", "title": "살모사로 살아가다 억울할때 꿀팁", "date": "2023-01-07", "likes": 137, "views": 2268, "link": "https://cafe.naver.com/arcadestudy/38352", "hangul": 796}, {"id": "37261", "status": "동의완료", "author": "살모사당", "note": "", "title": "시공사 계약 시 주의사항 한가지 적어드립니다", "date": "2022-10-05", "likes": 19, "views": 922, "link": "https://cafe.naver.com/arcadestudy/37261", "hangul": 744}, {"id": "45446", "status": "동의완료", "author": "진자운동", "note": "", "title": "일반인의 지방 상가주택 건축기 올려봅니다.(건축비용, 기간 공유)", "date": "2025-02-17", "likes": 79, "views": 2978, "link": "https://cafe.naver.com/arcadestudy/45446", "hangul": 4420}, {"id": "26976", "status": "동의완료", "author": "이상형", "note": "", "title": "제주도 세컨하우스 만들기 3단계", "date": "2021-04-30", "likes": 79, "views": 1977, "link": "https://cafe.naver.com/arcadestudy/26976", "hangul": 795}, {"id": "27102", "status": "동의완료", "author": "이상형", "note": "", "title": "제주도 세컨하우스 만들기 3단계(2)", "date": "2021-05-06", "likes": 80, "views": 2244, "link": "https://cafe.naver.com/arcadestudy/27102", "hangul": 2087}, {"id": "11329", "status": "동의완료", "author": "화란설청", "note": "", "title": "은행 대출금리 대략 이렇게 결정됩니다", "date": "2019-04-18", "likes": 86, "views": 3473, "link": "https://cafe.naver.com/arcadestudy/11329", "hangul": 895}, {"id": "1310", "status": "동의완료", "author": "화란설청", "note": "", "title": "상가대출에 대한 고찰", "date": "2017-12-06", "likes": 35, "views": 1918, "link": "https://cafe.naver.com/arcadestudy/1310", "hangul": 1386}, {"id": "23513", "status": "동의완료", "author": "상가월세받고싶음", "note": "", "title": "철거에 관해....", "date": "2020-12-01", "likes": 55, "views": 1461, "link": "https://cafe.naver.com/arcadestudy/23513", "hangul": 997}, {"id": "23932", "status": "동의완료", "author": "상가월세받고싶음", "note": "", "title": "철거 후기", "date": "2020-12-21", "likes": "", "views": 694, "link": "https://cafe.naver.com/arcadestudy/23932", "hangul": 518}, {"id": "12893", "status": "동의완료", "author": "맥밀란", "note": "", "title": "원룸(다중, 다가구) 건물 효과적 관리 방법", "date": "2019-07-01", "likes": 125, "views": 3919, "link": "https://cafe.naver.com/arcadestudy/12893", "hangul": 2454}, {"id": "45917", "status": "동의완료", "author": "은행대출담당", "note": "익명처리부탁", "title": "대출담장자가본 법인임대사업자 대출에관해", "date": "2025-04-19", "likes": 68, "views": 1749, "link": "https://cafe.naver.com/arcadestudy/45917", "hangul": 2667}, {"id": "42635", "status": "동의완료", "author": "우보천리로간다", "note": "", "title": "자영업자들이 건물주가 되어야 하는 이유", "date": "2024-01-21", "likes": 47, "views": 3608, "link": "https://cafe.naver.com/arcadestudy/42635", "hangul": 1282}, {"id": "19196", "status": "동의완료", "author": "상가 몇개더", "note": "", "title": "꼬마빌딩 공실 막는 방법 ...!!(feat with 밀린 임차료 한번에 받는 방법)", "date": "2020-05-12", "likes": 147, "views": 3319, "link": "https://cafe.naver.com/arcadestudy/19196", "hangul": 1074}, {"id": "41391", "status": "동의완료", "author": "CN1000", "note": "", "title": "임대인의 임대료 연체 관리 팁", "date": "2023-09-09", "likes": 156, "views": 2706, "link": "https://cafe.naver.com/arcadestudy/41391", "hangul": 1803}, {"id": "38266", "status": "동의완료", "author": "getheart01", "note": "세법검증 요청함", "title": "상속세/증여세의 연대납부/분납과 납세담보 Ver1.01", "date": "2022-12-30", "likes": 40, "views": 1133, "link": "https://cafe.naver.com/arcadestudy/38266", "hangul": 1492}, {"id": "46005", "status": "동의완료", "author": "어지러운도적", "note": "", "title": "셀프 85평 옥상 우레탄방수 체험기", "date": "2025-05-03", "likes": 54, "views": 3900, "link": "https://cafe.naver.com/arcadestudy/46005", "hangul": 1178}, {"id": "46801", "status": "동의완료", "author": "startup", "note": "", "title": "대규모 재건축 단지가 아닌 곳들은 상가 신축을 안하는 방향으로 가는듯 보입니다", "date": "2025-09-16", "likes": 87, "views": 4506, "link": "https://cafe.naver.com/arcadestudy/46801", "hangul": 1649}, {"id": "9513", "status": "동의완료", "author": "상가교생", "note": "", "title": "현직 종사자가 말하는 상가", "date": "2019-01-12", "likes": 149, "views": 4469, "link": "https://cafe.naver.com/arcadestudy/9513", "hangul": 1307}, {"id": "40773", "status": "동의완료", "author": "상가교생", "note": "", "title": "좋은 물건을 사기 위한 손품/발품 방법론", "date": "2023-07-26", "likes": 126, "views": 1836, "link": "https://cafe.naver.com/arcadestudy/40773", "hangul": 2639}, {"id": "34007", "status": "동의완료", "author": "어유지리", "note": "", "title": "60이라는 나이를 앞두고", "date": "2022-03-27", "likes": 112, "views": 3701, "link": "https://cafe.naver.com/arcadestudy/34007", "hangul": 2079}, {"id": "41118", "status": "동의완료", "author": "커피커피15", "note": "", "title": "시설업에 대한 고찰", "date": "2023-08-20", "likes": 45, "views": 1057, "link": "https://cafe.naver.com/arcadestudy/41118", "hangul": 1077}, {"id": "2203", "status": "답변 대기중", "author": "체육인", "note": "", "title": "병원 상가주를 생각하는 분들이라면", "date": "2018-02-03", "likes": 242, "views": 7267, "link": "https://cafe.naver.com/arcadestudy/2203", "hangul": 1563}, {"id": "2387", "status": "답변 대기중", "author": "체육인", "note": "", "title": "아파트단지내상가 편의점자리 투자를 생각한다면", "date": "2018-02-12", "likes": 109, "views": 4410, "link": "https://cafe.naver.com/arcadestudy/2387", "hangul": 2133}, {"id": "5830", "status": "답변 대기중", "author": "체육인", "note": "", "title": "약국상가 투자 전에 생각해볼 것들", "date": "2018-08-08", "likes": 69, "views": 3181, "link": "https://cafe.naver.com/arcadestudy/5830", "hangul": 1247}, {"id": "12459", "status": "답변 대기중", "author": "루팡3세", "note": "", "title": "재건축 상가 투자를 마무리하는 시점에서", "date": "2019-06-10", "likes": 42, "views": 3759, "link": "https://cafe.naver.com/arcadestudy/12459", "hangul": 3210}, {"id": "39718", "status": "답변 대기중", "author": "논어", "note": "", "title": "젊은 건물주가 느낀 원룸운영 일년의 단상", "date": "2023-04-25", "likes": 202, "views": 4272, "link": "https://cafe.naver.com/arcadestudy/39718", "hangul": 2320}, {"id": "28524", "status": "답변 대기중", "author": "유두리", "note": "", "title": "건물 매수하면서 몇 가지 후회되는 것들(계약부터 잔금까지)", "date": "2021-07-08", "likes": 161, "views": 3429, "link": "https://cafe.naver.com/arcadestudy/28524", "hangul": 1142}, {"id": "21241", "status": "답변 대기중", "author": "푸른물고기", "note": "", "title": "제가 아는 누수 경우 올려봅니다.-추가 수정-", "date": "2020-08-15", "likes": 63, "views": 1714, "link": "https://cafe.naver.com/arcadestudy/21241", "hangul": 1793}, {"id": "24908", "status": "답변 대기중", "author": "이누", "note": "닉네임 카페=열혈캠퍼님 가능성", "title": "창고업 경험담", "date": "2021-01-29", "likes": 90, "views": 2583, "link": "https://cafe.naver.com/arcadestudy/24908", "hangul": 1651}, {"id": "24915", "status": "답변 대기중", "author": "이누", "note": "닉네임 카페=열혈캠퍼님 가능성", "title": "창고업 2탄.", "date": "2021-01-29", "likes": 81, "views": 2034, "link": "https://cafe.naver.com/arcadestudy/24915", "hangul": 3373}, {"id": "47428", "status": "답변 대기중", "author": "스벅건물", "note": "", "title": "스타벅스 건물 매도 마치고 후기 남깁니다", "date": "2026-02-03", "likes": 162, "views": 6334, "link": "https://cafe.naver.com/arcadestudy/47428", "hangul": 924}, {"id": "43275", "status": "답변 대기중", "author": "이수민서맘", "note": "", "title": "2년이상 공실 더이상 견디다 못해 ,,,,1", "date": "2024-04-10", "likes": 10, "views": 2743, "link": "https://cafe.naver.com/arcadestudy/43275", "hangul": 567}, {"id": "43277", "status": "답변 대기중", "author": "이수민서맘", "note": "", "title": "2년이상 공실 더이상 견디다 못해 ,,,,2", "date": "2024-04-11", "likes": 32, "views": 2149, "link": "https://cafe.naver.com/arcadestudy/43277", "hangul": 946}, {"id": "43279", "status": "답변 대기중", "author": "이수민서맘", "note": "", "title": "2년이상 공실 더이상 견디다 못해 ,,,,3", "date": "2024-04-11", "likes": 39, "views": 3928, "link": "https://cafe.naver.com/arcadestudy/43279", "hangul": 744}, {"id": "34662", "status": "답변 대기중", "author": "루크", "note": "", "title": "꼬빌로 가는 사고법", "date": "2022-04-28", "likes": 91, "views": 3291, "link": "https://cafe.naver.com/arcadestudy/34662", "hangul": 1513}, {"id": "17990", "status": "답변 대기중", "author": "비가비", "note": "", "title": "임대업과 나의 인생 돌아보기", "date": "2020-03-02", "likes": 67, "views": 2430, "link": "https://cafe.naver.com/arcadestudy/17990", "hangul": 2149}, {"id": "35912", "status": "답변 대기중", "author": "구뜨(곰돌이푸우72)", "note": "카페 닉 곰돌이푸우72", "title": "상가주택에 대한 견해", "date": "2022-07-05", "likes": 81, "views": 2459, "link": "https://cafe.naver.com/arcadestudy/35912", "hangul": 2727}, {"id": "28180", "status": "답변 대기중", "author": "고고고", "note": "", "title": "꼬빌구매후기 feat.10개월간의 방황", "date": "2021-06-24", "likes": 104, "views": 2575, "link": "https://cafe.naver.com/arcadestudy/28180", "hangul": 1834}, {"id": "17278", "status": "답변 대기중", "author": "도르담", "note": "", "title": "상가샀더니 이것저것 장난아니네요", "date": "2020-01-24", "likes": 73, "views": 3275, "link": "https://cafe.naver.com/arcadestudy/17278", "hangul": 1766}, {"id": "11766", "status": "답변 대기중", "author": "파키케팔로사우르스", "note": "", "title": "건물 바가지 안쓰고 사는 법", "date": "2019-05-09", "likes": 187, "views": 6491, "link": "https://cafe.naver.com/arcadestudy/11766", "hangul": 718}, {"id": "6828", "status": "답변 대기중", "author": "금광천사", "note": "", "title": "상권 이야기 - 편의점", "date": "2018-09-17", "likes": 92, "views": 5160, "link": "https://cafe.naver.com/arcadestudy/6828", "hangul": 678}, {"id": "45212", "status": "답변 대기중", "author": "머시", "note": "", "title": "약국 상가 투자 솔직히 알려드립니다", "date": "2025-01-11", "likes": 30, "views": 3498, "link": "https://cafe.naver.com/arcadestudy/45212", "hangul": 386}, {"id": "45540", "status": "답변 대기중", "author": "머시", "note": "", "title": "약국 상가 투자 솔직히 알려드립니다. 2탄", "date": "2025-03-02", "likes": 20, "views": 2795, "link": "https://cafe.naver.com/arcadestudy/45540", "hangul": 861}, {"id": "45900", "status": "답변 대기중", "author": "julian", "note": "", "title": "건물공사의 어려움", "date": "2025-04-17", "likes": 12, "views": 791, "link": "https://cafe.naver.com/arcadestudy/45900", "hangul": 1172}, {"id": "40783", "status": "답변 대기중", "author": "중도90", "note": "", "title": "상속을 진행하면서 느낀점", "date": "2023-07-27", "likes": 58, "views": 2448, "link": "https://cafe.naver.com/arcadestudy/40783", "hangul": 519}, {"id": "40785", "status": "답변 대기중", "author": "중도90", "note": "", "title": "상속을 진행하면서 느낀점 2", "date": "2023-07-27", "likes": 21, "views": 2529, "link": "https://cafe.naver.com/arcadestudy/40785", "hangul": 561}, {"id": "40805", "status": "답변 대기중", "author": "중도90", "note": "", "title": "상속을 진행하면서 3", "date": "2023-07-28", "likes": 94, "views": 2622, "link": "https://cafe.naver.com/arcadestudy/40805", "hangul": 1419}, {"id": "40835", "status": "답변 대기중", "author": "중도90", "note": "", "title": "상속을 진행하며 4", "date": "2023-08-01", "likes": 28, "views": 1803, "link": "https://cafe.naver.com/arcadestudy/40835", "hangul": 756}, {"id": "47751", "status": "답변 대기중", "author": "건물주가처음이라", "note": "", "title": "AI 이용하여 법률 상담 및 절차 진행시 약간 팁", "date": "2026-04-26", "likes": 50, "views": 819, "link": "https://cafe.naver.com/arcadestudy/47751", "hangul": 716}, {"id": "35175", "status": "동의불가", "author": "이제부터 시작", "note": "", "title": "초보분들을 위한 은행별 대출특징", "date": "2022-05-27", "likes": 142, "views": 2399, "link": "https://cafe.naver.com/arcadestudy/35175"}, {"id": "34082", "status": "동의불가", "author": "삼성동꼬꼬마", "note": "", "title": "3월의 마지막 주, 공실 탈출 기념으로 적어보네요", "date": "2022-03-31", "likes": 48, "views": 1729, "link": "https://cafe.naver.com/arcadestudy/34082"}, {"id": "2245", "status": "동의불가", "author": "CINNAMON", "note": "카페 원문 닉 'ㄱㄹ ㅅ ㅎㅎ' 가능성", "title": "통건물 투자자_주거용으로 버는 것과 거리가 먼", "date": "2018-02-04", "likes": 125, "views": 5177, "link": "https://cafe.naver.com/arcadestudy/2245"}, {"id": "41122", "status": "동의불가", "author": "처녀자리", "note": "", "title": "입지를 넘어서는....", "date": "2023-08-20", "likes": 84, "views": 2920, "link": "https://cafe.naver.com/arcadestudy/41122"}, {"id": "44757", "status": "동의불가", "author": "마음만은부자", "note": "", "title": "건물주 할아버지의 마지막 유언", "date": "2024-11-03", "likes": 106, "views": 2737, "link": "https://cafe.naver.com/arcadestudy/44757"}];
 const KEY = "salmosa-consent-v2";
@@ -114,6 +123,18 @@ const META = {
   "동의불가": { cls: "no", sub: "책에 넣지 않습니다." }
 };
 function uid(){ return "p"+Math.random().toString(36).slice(2,10)+Date.now().toString(36); }
+let askResolve=null;
+function askConfirm(msg){
+  return new Promise(resolve=>{
+    document.getElementById("ask-msg").textContent=msg;
+    document.getElementById("ask").classList.add("show");
+    askResolve=(v)=>{
+      document.getElementById("ask").classList.remove("show");
+      askResolve=null;
+      resolve(!!v);
+    };
+  });
+}
 function load(){
   const seed = JSON.parse(JSON.stringify(SEED)).map(x => { if(!x.id) x.id=uid(); if(x.views==null) x.views=""; return x; });
   try {
@@ -250,13 +271,12 @@ function bind(){
       data.forEach(p=>{ if(p.author===author0&&p.status===status0) p.author=neu; });
       save(); render();
     });
-    statusSel.addEventListener("change", ()=>{
+    statusSel.addEventListener("change", async ()=>{
       const neu=statusSel.value;
       if(neu===status0) return;
-      if(!confirm("정말 수정하시겠습니까?")){
-        statusSel.value=status0;
-        return;
-      }
+      statusSel.value=status0;
+      const ok=await askConfirm("정말 수정하시겠습니까?");
+      if(!ok) return;
       data.forEach(p=>{ if(p.author===author0&&p.status===status0) p.status=neu; });
       save(); render();
     });
@@ -279,8 +299,8 @@ function bind(){
         if(meta.ok){ applyMeta(item, meta); save(); render(); setSaved("카페 정보를 채웠습니다"); }
         else { setSaved(meta.error||"저장됨"); }
       });
-      row.querySelector(".del-post").addEventListener("click", ()=>{
-        if(!confirm("정말 삭제하시겠습니까?")) return;
+      row.querySelector(".del-post").addEventListener("click", async ()=>{
+        if(!await askConfirm("정말 삭제하시겠습니까?")) return;
         data=data.filter(p=>String(p.id)!==String(id));
         save(); render();
       });
@@ -298,8 +318,8 @@ function bind(){
       data.push(item); save(); render();
       if(meta.ok) setSaved("카페 정보를 채웠습니다");
     });
-    card.querySelector(".del-person").addEventListener("click", ()=>{
-      if(!confirm("정말 삭제하시겠습니까?")) return;
+    card.querySelector(".del-person").addEventListener("click", async ()=>{
+      if(!await askConfirm("정말 삭제하시겠습니까?")) return;
       data=data.filter(p=>!(p.author===author0&&p.status===status0));
       save(); render();
     });
@@ -349,6 +369,9 @@ document.getElementById("resetBtn").onclick=()=>{
   localStorage.removeItem(KEY); localStorage.removeItem("salmosa-consent-v1");
   data=load(); save(); render();
 };
+document.getElementById("ask-yes").onclick=()=>{ if(askResolve) askResolve(true); };
+document.getElementById("ask-no").onclick=()=>{ if(askResolve) askResolve(false); };
+document.getElementById("ask").addEventListener("click", e=>{ if(e.target.id==="ask" && askResolve) askResolve(false); });
 render(); save();
 </script>
 </body>
