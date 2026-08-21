@@ -72,7 +72,7 @@ select.status { font-family:inherit; font-size:12px; font-weight:700; border-rad
     <div class="kicker">살모사의 커피하우스 · 책 수록</div>
     <h1>글 동의 현황</h1>
     <div class="pills" id="pills"></div>
-    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v13</span></p>
+    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v14</span></p>
   </div>
   <div class="toolbar">
     <button class="btn-primary" id="addPerson">+ 사람 추가</button>
@@ -150,7 +150,8 @@ function applySeed(p, s){
   if ((p.views===""||p.views==null) && s.views!=="" && s.views!=null) p.views=s.views;
   if (!p.hangul && s.hangul) p.hangul=s.hangul;
   if (!p.title && s.title) p.title=s.title;
-  if (s.status) p.status=s.status;
+  if (s.status && s.status!==p.status) { p.status=s.status; p.movedAt=Date.now(); }
+  else if (s.status) p.status=s.status;
 }
 function authorSeedStatus(seed){
   const m={};
@@ -173,6 +174,7 @@ function syncFromSeed(list){
       ));
     }
     if(s){ used.add(String(s.id)); applySeed(p, s); }
+    else if(byAuthor[p.author] && p.status!==byAuthor[p.author]) { p.status=byAuthor[p.author]; p.movedAt=Date.now(); }
     else if(byAuthor[p.author]) p.status=byAuthor[p.author];
     if (p.views==null) p.views="";
   });
@@ -213,11 +215,13 @@ async function cafeLookup(author, title){
 }
 function grouped(){
   const order=[], map={};
-  data.forEach(p => {
+  data.forEach((p, idx) => {
     const k=p.status+"\t"+p.author;
-    if(!map[k]){ map[k]={status:p.status,author:p.author,note:p.note||"",posts:[]}; order.push(k); }
+    if(!map[k]){ map[k]={status:p.status,author:p.author,note:p.note||"",posts:[], movedAt:0, idx}; order.push(k); }
     if(p.note && !map[k].note) map[k].note=p.note;
     map[k].posts.push(p);
+    const t=Number(p.movedAt)||0;
+    if(t>map[k].movedAt) map[k].movedAt=t;
   });
   return order.map(k=>map[k]);
 }
@@ -276,6 +280,9 @@ function render(){
   const groups=grouped();
   const by={"동의완료":[],"답변 대기중":[],"동의불가":[]};
   groups.forEach(g=>by[g.status]&&by[g.status].push(g));
+  STATUSES.forEach(st=>{
+    by[st].sort((a,b)=> (b.movedAt||0)-(a.movedAt||0) || (a.idx||0)-(b.idx||0));
+  });
   document.getElementById("app").innerHTML = STATUSES.map(st=>{
     const list=by[st];
     const cards=list.length?list.map(cardHtml).join(""):`<div class="empty">아직 없습니다. 위에서 사람을 추가하세요.</div>`;
@@ -311,7 +318,7 @@ function bind(){
       statusSel.value=status0;
       const ok=await askConfirm("정말 수정하시겠습니까?");
       if(!ok) return;
-      data.forEach(p=>{ if(p.author===author0&&p.status===status0) p.status=neu; });
+      data.forEach(p=>{ if(p.author===author0&&p.status===status0){ p.status=neu; p.movedAt=Date.now(); } });
       save(); render();
     });
     if(note){
@@ -370,7 +377,7 @@ document.getElementById("m-ok").onclick=async ()=>{
   msg.textContent="카페에서 찾는 중…";
   document.getElementById("m-ok").disabled=true;
   const meta=await cafeLookup(author, title);
-  const item={id:uid(), status:document.getElementById("m-status").value, author, note:document.getElementById("m-note").value.trim(), title, date:"", likes:"", views:"", link:""};
+  const item={id:uid(), status:document.getElementById("m-status").value, author, note:document.getElementById("m-note").value.trim(), title, date:"", likes:"", views:"", link:"", movedAt:Date.now()};
   if(meta.ok) applyMeta(item, meta);
   data.push(item); save(); render();
   document.getElementById("m-ok").disabled=false;
