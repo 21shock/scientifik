@@ -69,7 +69,7 @@ select.status { font-family:inherit; font-size:12px; font-weight:700; border-rad
     <div class="kicker">살모사의 커피하우스 · 책 수록</div>
     <h1>글 동의 현황</h1>
     <div class="pills" id="pills"></div>
-    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다.</p>
+    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v8</span></p>
   </div>
   <div class="toolbar">
     <button class="btn-primary" id="addPerson">+ 사람 추가</button>
@@ -134,6 +134,19 @@ function askConfirm(msg){
     };
   });
 }
+function normTitle(s){
+  return String(s||"").replace(/[\s"'“”'`·.,]/g,"").toLowerCase();
+}
+function applySeed(p, s){
+  if(!s) return;
+  if (s.link && !p.link) p.link=s.link;
+  if (s.id && (!p.id || String(p.id).startsWith("p"))) p.id=s.id;
+  if (s.date && !p.date) p.date=s.date;
+  if ((p.likes===""||p.likes==null) && s.likes!=="" && s.likes!=null) p.likes=s.likes;
+  if ((p.views===""||p.views==null) && s.views!=="" && s.views!=null) p.views=s.views;
+  if (!p.hangul && s.hangul) p.hangul=s.hangul;
+  if (!p.title && s.title) p.title=s.title;
+}
 function load(){
   const seed = JSON.parse(JSON.stringify(SEED)).map(x => { if(!x.id) x.id=uid(); if(x.views==null) x.views=""; return x; });
   try {
@@ -141,20 +154,22 @@ function load(){
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length) {
+        const used=new Set();
         parsed.forEach(p => {
-          const s = seed.find(x => x.author===p.author && x.title===p.title);
-          if (s) {
-            if (s.link && !p.link) p.link=s.link;
-            if (s.id && (!p.id || String(p.id).startsWith("p"))) p.id=s.id;
-            if (s.date && !p.date) p.date=s.date;
-            if ((p.likes===""||p.likes==null) && s.likes!=="" && s.likes!=null) p.likes=s.likes;
-            if ((p.views===""||p.views==null) && s.views!=="" && s.views!=null) p.views=s.views;
-            if (!p.hangul && s.hangul) p.hangul=s.hangul;
+          let s = seed.find(x => x.author===p.author && x.title===p.title && !used.has(String(x.id)));
+          if(!s && p.author){
+            const nt=normTitle(p.title);
+            s = seed.find(x => x.author===p.author && !used.has(String(x.id)) && (
+              !nt || normTitle(x.title).includes(nt) || nt.includes(normTitle(x.title))
+            ));
           }
+          if(s){ used.add(String(s.id)); applySeed(p, s); }
           if (p.views==null) p.views="";
         });
         seed.forEach(s => {
-          if (!parsed.some(p => p.author===s.author && p.title===s.title)) parsed.push(JSON.parse(JSON.stringify(s)));
+          if (!parsed.some(p => p.author===s.author && (p.title===s.title || String(p.id)===String(s.id) || (p.link&&p.link===s.link)))) {
+            parsed.push(JSON.parse(JSON.stringify(s)));
+          }
         });
         return parsed;
       }
