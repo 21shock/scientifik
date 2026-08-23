@@ -75,7 +75,7 @@ select.status { font-family:inherit; font-size:12px; font-weight:700; border-rad
     <div class="kicker">살모사의 커피하우스 · 책 수록</div>
     <h1>글 동의 현황</h1>
     <div class="pills" id="pills"></div>
-    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v26</span></p>
+    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v27</span></p>
   </div>
   <div class="toolbar">
     <button class="btn-primary" id="addPerson">+ 사람 추가</button>
@@ -276,7 +276,7 @@ function cardHtml(g){
       ${g.status==="동의완료"&&CHAT_CAPTURES[g.author]?`<button class="btn-tiny cap-btn" data-author="${esc(g.author)}">동의캡쳐화면</button>`:""}
       <span class="pill ${META[g.status].cls}" style="padding:3px 8px;font-size:11px;">${g.posts.length}편</span>
       <button class="btn-tiny btn-ghost add-post">+ 글</button>
-      <button class="btn-tiny btn-danger del-person">사람 삭제</button>
+      <button class="btn-tiny btn-danger del-person">전체삭제</button>
     </div>
     ${g.note && String(g.note).trim() ? `<input class="note${req}" data-f="note" readonly tabindex="-1" value="${esc(g.note)}">` : ""}
     ${posts}
@@ -392,7 +392,7 @@ function bind(){
       capBtn.addEventListener("click", ()=>{
         document.getElementById("cap-title").textContent=author0+" 동의 채팅";
         const caps=CHAT_CAPTURES[author0]||[];
-        document.getElementById("cap-imgs").innerHTML=caps.map(src=>`<img src="${esc(src)}?v=26" alt="${esc(author0)} 동의 캡쳐">`).join("");
+        document.getElementById("cap-imgs").innerHTML=caps.map(src=>`<img src="${esc(src)}?v=27" alt="${esc(author0)} 동의 캡쳐">`).join("");
         document.getElementById("capModal").classList.add("show");
       });
     }
