@@ -1,25 +1,94 @@
 {
-  "잠실탱크": "chat-captures/3001012232921.png",
-  "솔로헌터": "chat-captures/3001012219333.png",
-  "살모사당": "chat-captures/3001012234367.png",
-  "진자운동": "chat-captures/3001012235756.png",
-  "이상형": "chat-captures/3001012212126.png",
-  "화란설청": "chat-captures/3001012203553.png",
-  "상가월세받고싶음": "chat-captures/3001012190530.png",
-  "맥밀란": "chat-captures/3001012221487.png",
-  "은행대출담당": "chat-captures/3001012228557.png",
-  "우보천리로간다": "chat-captures/3001012221120.png",
-  "상가 몇개더": "chat-captures/3001012219993.png",
-  "CN1000": "chat-captures/3001012191845.png",
-  "getheart01": "chat-captures/3001012191530.png",
-  "어지러운도적": "chat-captures/3001012203041.png",
-  "startup": "chat-captures/3000939182381.png",
-  "상가교생": "chat-captures/602818067720.png",
-  "어유지리": "chat-captures/3001012131569.png",
-  "커피커피15": "chat-captures/3001012163717.png",
-  "체육인": "chat-captures/3001012121395.png",
-  "구뜨(곰돌이푸우72)": "chat-captures/3001012213709.png",
-  "금광천사": "chat-captures/3001012232541.png",
-  "문수로": "chat-captures/3001012250593.png",
-  "블리치": "chat-captures/3001012260316.png"
+  "CN1000": [
+    "chat-captures/IMG_2825.jpg",
+    "chat-captures/IMG_2826.jpg"
+  ],
+  "getheart01": [
+    "chat-captures/IMG_2827.jpg",
+    "chat-captures/IMG_2828.jpg"
+  ],
+  "startup": [
+    "chat-captures/IMG_2829.jpg",
+    "chat-captures/IMG_2830.jpg"
+  ],
+  "구뜨(곰돌이푸우72)": [
+    "chat-captures/IMG_2831.jpg",
+    "chat-captures/IMG_2832.jpg"
+  ],
+  "금광천사": [
+    "chat-captures/IMG_2833.jpg",
+    "chat-captures/IMG_2834.jpg"
+  ],
+  "맥밀란": [
+    "chat-captures/IMG_2835.jpg",
+    "chat-captures/IMG_2836.jpg"
+  ],
+  "문수로": [
+    "chat-captures/IMG_2837.jpg",
+    "chat-captures/IMG_2838.jpg"
+  ],
+  "블리치": [
+    "chat-captures/IMG_2839.jpg",
+    "chat-captures/IMG_2840.jpg"
+  ],
+  "살모사당": [
+    "chat-captures/IMG_2841.jpg",
+    "chat-captures/IMG_2842.jpg"
+  ],
+  "상가 몇개더": [
+    "chat-captures/IMG_2843.jpg",
+    "chat-captures/IMG_2844.jpg"
+  ],
+  "상가교생": [
+    "chat-captures/IMG_2845.jpg",
+    "chat-captures/IMG_2846.jpg"
+  ],
+  "상가월세받고싶음": [
+    "chat-captures/IMG_2847.jpg",
+    "chat-captures/IMG_2848.jpg"
+  ],
+  "솔로헌터": [
+    "chat-captures/IMG_2849.jpg",
+    "chat-captures/IMG_2850.jpg"
+  ],
+  "어유지리": [
+    "chat-captures/IMG_2851.jpg",
+    "chat-captures/IMG_2852.jpg"
+  ],
+  "어지러운도적": [
+    "chat-captures/IMG_2853.jpg",
+    "chat-captures/IMG_2854.jpg"
+  ],
+  "우보천리로간다": [
+    "chat-captures/IMG_2855.jpg",
+    "chat-captures/IMG_2856.jpg"
+  ],
+  "은행대출담당": [
+    "chat-captures/IMG_2857.jpg",
+    "chat-captures/IMG_2858.jpg"
+  ],
+  "이상형": [
+    "chat-captures/IMG_2859.jpg",
+    "chat-captures/IMG_2860.jpg"
+  ],
+  "잠실탱크": [
+    "chat-captures/IMG_2861.jpg",
+    "chat-captures/IMG_2862.jpg"
+  ],
+  "진자운동": [
+    "chat-captures/IMG_2863.jpg",
+    "chat-captures/IMG_2864.jpg"
+  ],
+  "체육인": [
+    "chat-captures/IMG_2865.jpg",
+    "chat-captures/IMG_2866.jpg"
+  ],
+  "커피커피15": [
+    "chat-captures/IMG_2867.jpg",
+    "chat-captures/IMG_2868.jpg"
+  ],
+  "화란설청": [
+    "chat-captures/IMG_2869.jpg",
+    "chat-captures/IMG_2870.jpg"
+  ]
 }
