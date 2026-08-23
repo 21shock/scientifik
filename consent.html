@@ -72,7 +72,7 @@ select.status { font-family:inherit; font-size:12px; font-weight:700; border-rad
     <div class="kicker">살모사의 커피하우스 · 책 수록</div>
     <h1>글 동의 현황</h1>
     <div class="pills" id="pills"></div>
-    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v20</span></p>
+    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v21</span></p>
   </div>
   <div class="toolbar">
     <button class="btn-primary" id="addPerson">+ 사람 추가</button>
@@ -152,24 +152,10 @@ function applySeed(p, s){
   if (!p.title && s.title) p.title=s.title;
   if (s.note && !p.note) p.note=s.note;
   if (!s.note && /카페 닉|닉네임 카페|카페 원문/.test(p.note||"")) p.note="";
-  const localMoved=Number(p.movedAt)||0;
-  const seedMoved=Number(s.movedAt)||0;
-  if(localMoved>seedMoved) return;
-  if(s.note) p.note=s.note;
-  if(s.status) p.status=s.status;
-  if(seedMoved && !localMoved) p.movedAt=s.movedAt;
-}
-function authorSeedStatus(seed){
-  const m={};
-  seed.forEach(s=>{
-    if(!m[s.author]) m[s.author]=s.status;
-    else if(m[s.author]!==s.status) m[s.author]=null;
-  });
-  return m;
+  if (s.movedAt && !(Number(p.movedAt)>0)) p.movedAt=s.movedAt;
 }
 function syncFromSeed(list){
   const seed = JSON.parse(JSON.stringify(SEED)).map(x => { if(!x.id) x.id=uid(); if(x.views==null) x.views=""; return x; });
-  const byAuthor=authorSeedStatus(seed);
   const used=new Set();
   list.forEach(p=>{
     let s = seed.find(x => (String(x.id)===String(p.id) || (p.link && x.link===p.link)) && !used.has(String(x.id)));
@@ -180,7 +166,6 @@ function syncFromSeed(list){
       ));
     }
     if(s){ used.add(String(s.id)); applySeed(p, s); }
-    else if(!(Number(p.movedAt)>0) && byAuthor[p.author]) p.status=byAuthor[p.author];
     if (p.views==null) p.views="";
   });
   seed.forEach(s=>{
