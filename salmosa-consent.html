@@ -75,7 +75,7 @@ select.status { font-family:inherit; font-size:12px; font-weight:700; border-rad
     <div class="kicker">살모사의 커피하우스 · 책 수록</div>
     <h1>글 동의 현황</h1>
     <div class="pills" id="pills"></div>
-    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v36</span></p>
+    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v37</span></p>
   </div>
   <div class="toolbar">
     <button class="btn-primary" id="addPerson">+ 사람 추가</button>
@@ -290,12 +290,14 @@ function estimatePages(){
   items.forEach(p=>{ const h=Number(p.hangul); chars += h>0 ? h : AVG; });
   const cover=1;      // 속표지
   const preface=6;    // 서문
-  const toc=Math.max(3, Math.ceil(items/10)); // 차례
+  const n=items.length;
+  const toc=Math.max(3, Math.ceil(n/10)); // 차례
   const ending=4;     // 맺음말
   const credits=2;    // 수록·출처 안내
   const colophon=1;   // 판권
-  const body=chars/550 + items.length*0.7; // 본문 + 글 제목·여백
-  return Math.round(cover+preface+toc+body+ending+credits+colophon);
+  const body=chars/550 + n*0.7; // 본문 + 글 제목·여백
+  const total=Math.round(cover+preface+toc+body+ending+credits+colophon);
+  return Number.isFinite(total) ? total : 0;
 }
 function render(){
   const c=counts();
