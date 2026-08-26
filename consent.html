@@ -75,7 +75,7 @@ select.status { font-family:inherit; font-size:12px; font-weight:700; border-rad
     <div class="kicker">살모사의 커피하우스 · 책 수록</div>
     <h1>글 동의 현황</h1>
     <div class="pills" id="pills"></div>
-    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v42</span></p>
+    <p>사람이나 글을 추가하면 카페에서 링크·작성일·조회수·좋아요를 찾아 채웁니다. <span style="color:#9ec9e6">목록 v43</span></p>
   </div>
   <div class="toolbar">
     <button class="btn-primary" id="addPerson">+ 사람 추가</button>
@@ -165,12 +165,6 @@ function applySeed(p, s){
   if (!p.title && s.title) p.title=s.title;
   if (s.note && !p.note) p.note=s.note;
   if (!s.note && /카페 닉|닉네임 카페|카페 원문/.test(p.note||"")) p.note="";
-  const localMoved=Number(p.movedAt)||0;
-  const seedMoved=Number(s.movedAt)||0;
-  if(localMoved>seedMoved) return;
-  if(s.note) p.note=s.note;
-  if(s.status) p.status=s.status;
-  if(seedMoved) p.movedAt=s.movedAt;
 }
 function syncFromSeed(list){
   const seed = JSON.parse(JSON.stringify(SEED)).map(x => { if(!x.id) x.id=uid(); if(x.views==null) x.views=""; return x; });
