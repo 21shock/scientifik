@@ -400,3 +400,16 @@ h2 {
   .hero-figure { justify-content: center; }
   .hero-figure img { width: 50%; height: 26vh; }
 }
+
+/* What we have. 제목: 공학적인 고정폭 글씨, 작게 */
+.shelves .section-head h2 {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-weight: 500;
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  letter-spacing: 0;
+}
+
+/* 서가 카드: 제목만 */
+.shelf-grid h3 {
+  margin: 0;
+}
