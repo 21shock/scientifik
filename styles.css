@@ -1,5 +1,5 @@
 :root {
-  --paper: #f4efe8;
+  --paper: #f5f5f4;
   --ink: #1c1916;
   --mute: #5c534c;
   --oak: #c4a574;
@@ -71,23 +71,19 @@ a {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem var(--pad);
-  background: rgba(244, 239, 232, 0.92);
+  background: rgba(245, 245, 244, 0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
 }
 
 .wordmark {
   display: inline-block;
-  font-family: var(--serif);
-  font-size: 1.55rem;
-  font-weight: 700;
-  font-synthesis: weight;
-  letter-spacing: 0.06em;
-  transform: scaleX(1.08);
-  transform-origin: left center;
-  color: #3a3a3a;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: #1c1916;
   text-decoration: none;
-  -webkit-text-stroke: 0.35px currentColor;
 }
 
 .nav {
@@ -253,7 +249,7 @@ h2 {
   padding: 1.3rem 1.2rem;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: #fffdf9;
+  background: #ffffff;
 }
 
 .shelf-grid h3 {
@@ -381,4 +377,26 @@ h2 {
   .site-footer {
     flex-direction: column;
   }
+}
+
+.lab-title {
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+/* 인물 사진 절반 크기 */
+.hero-figure {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.hero-figure img {
+  width: 50%;
+  height: 50vh;
+  object-fit: cover;
+}
+@media (max-width: 860px) {
+  .hero-figure { justify-content: center; }
+  .hero-figure img { width: 50%; height: 26vh; }
 }
